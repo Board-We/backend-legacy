@@ -32,4 +32,9 @@ public class Message {
     @NotNull
     private MessageStatus status;
 
+    public Message(User user, String content, MessageStatus status) {
+        this.user = user;
+        this.content = content;
+        this.status = status;
+    }
 }

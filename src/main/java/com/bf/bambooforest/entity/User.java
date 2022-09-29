@@ -18,4 +18,9 @@ public class User {
     @NotNull
     private String phoneNumber;
 
+    public User(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+
 }
