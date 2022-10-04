@@ -1,10 +1,14 @@
 package com.bf.bambooforest.entity;
 
 import com.sun.istack.NotNull;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Message {
 
     @Id @GeneratedValue
@@ -32,9 +36,10 @@ public class Message {
     @NotNull
     private MessageStatus status;
 
-    public Message(User user, String content, MessageStatus status) {
+    @Builder
+    public Message(User user, String content) {
         this.user = user;
         this.content = content;
-        this.status = status;
+        this.status = MessageStatus.UNREAD;
     }
 }
