@@ -1,13 +1,10 @@
 package com.bf.bambooforest.controller;
 
-import com.bf.bambooforest.entity.Message;
-import com.bf.bambooforest.entity.User;
-import lombok.Data;
-import lombok.Getter;
+import com.bf.bambooforest.dto.GetMessagesResponseDto;
+import com.bf.bambooforest.dto.SendMessageRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/message")
@@ -21,21 +18,12 @@ public class MessageController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Message>> getMessages(@RequestParam String phoneNumber) {
+    public ResponseEntity<GetMessagesResponseDto> getMessages(@RequestParam String phoneNumber) {
         System.out.println("phoneNumber = " + phoneNumber);
-        List<Message> messages = List.of(Message.builder()
-                .user(User.builder()
-                        .phoneNumber(phoneNumber)
-                        .build())
-                .content("hi")
-                .build());
-        return ResponseEntity.ok(messages);
-    }
-
-    @Data
-    private static class SendMessageRequestDto {
-        private String phoneNumber;
-        private String message;
+        GetMessagesResponseDto responseDto = GetMessagesResponseDto.builder()
+                .messages(List.of("hello", "world"))
+                .build();
+        return ResponseEntity.ok(responseDto);
     }
 
 }
