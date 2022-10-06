@@ -20,9 +20,23 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public void sendMessage(String phoneNumber, String message) {
-        System.out.println("phoneNumber = " + phoneNumber);
-        System.out.println("message = " + message);
+    public void sendMessage(String phoneNumber, String messageBody) {
+
+        Optional<User> userOptional = userRepository.findByPhoneNumber(phoneNumber);
+        User user;
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+
+        } else {
+            user = new User(phoneNumber);
+            userRepository.save(user);
+        }
+
+        messageRepository.save(Message.builder()
+                .user(user)
+                .content(messageBody)
+                .build());
+
     }
 
     public GetMessagesResponseDto getMessageDto(String phoneNumber) {
