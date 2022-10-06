@@ -7,14 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/message")
+
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping
+    @PostMapping("/message")
     public ResponseEntity<Void> sendMessage(@RequestBody SendMessageRequestDto requestDto) {
 
         String phoneNumber = requestDto.getPhoneNumber();
@@ -24,7 +24,7 @@ public class MessageController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/messages")
     public ResponseEntity<GetMessagesResponseDto> getMessages(@RequestParam String phoneNumber) {
 
         GetMessagesResponseDto responseDto = messageService.getMessageDto(phoneNumber);
