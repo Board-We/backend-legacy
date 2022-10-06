@@ -15,7 +15,7 @@ public class Message {
 
     @Id @GeneratedValue
     @Column(name="MESSAGE_ID")
-    private int id;
+    private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(
