@@ -5,13 +5,18 @@ import com.bf.bambooforest.dto.SendMessageRequestDto;
 import com.bf.bambooforest.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 public class MessageController {
 
     private final MessageService messageService;
@@ -27,7 +32,8 @@ public class MessageController {
     }
 
     @GetMapping("/messages")
-    public ResponseEntity<GetMessagesResponseDto> getMessages(@RequestParam String phoneNumber) {
+    public ResponseEntity<GetMessagesResponseDto> getMessages(
+            @RequestParam @NotNull @Size(min = 10, max = 11) @Pattern(regexp = "[0-9]+") String phoneNumber) {
 
         GetMessagesResponseDto responseDto = messageService.getMessageDto(phoneNumber);
 
