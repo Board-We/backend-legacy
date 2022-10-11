@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -15,7 +17,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping("/message")
-    public ResponseEntity<Void> sendMessage(@RequestBody SendMessageRequestDto requestDto) {
+    public ResponseEntity<Void> sendMessage(@RequestBody @Valid SendMessageRequestDto requestDto) {
 
         String phoneNumber = requestDto.getPhoneNumber();
         String message = requestDto.getMessage();
