@@ -7,11 +7,13 @@ import com.bf.bambooforest.repository.MessageRepository;
 import com.bf.bambooforest.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class MessageService {
@@ -20,6 +22,7 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
+    @Transactional
     public void sendMessage(String phoneNumber, String messageBody) {
 
         Optional<User> userOptional = userRepository.findByPhoneNumber(phoneNumber);
