@@ -2,6 +2,7 @@ package com.bf.bambooforest.service;
 
 import com.bf.bambooforest.dto.GetMessagesResponseDto;
 import com.bf.bambooforest.entity.Message;
+import com.bf.bambooforest.entity.MessageStatus;
 import com.bf.bambooforest.entity.User;
 import com.bf.bambooforest.repository.MessageRepository;
 import com.bf.bambooforest.repository.UserRepository;
@@ -42,12 +43,13 @@ public class MessageService {
 
     }
 
+    @Transactional
     public GetMessagesResponseDto getMessageDto(String phoneNumber) {
         List<String> messages = new ArrayList<>();
         Optional<User> userOptional = userRepository.findByPhoneNumber(phoneNumber);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            List<Message> foundMessages = messageRepository.findAllByUserId(user.getId());
+            List<Message> foundMessages = messageRepository.findByUserIdAndStatus(user.getId(), MessageStatus.UNREAD);
             for (Message message : foundMessages) {
                 message.read();
                 messages.add(message.getContent());
