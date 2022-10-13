@@ -44,4 +44,9 @@ public class Message {
         this.content = content;
         this.status = MessageStatus.UNREAD;
     }
+
+    public void read() {
+        this.status = MessageStatus.READ;
+    }
+
 }

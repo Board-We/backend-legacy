@@ -49,6 +49,7 @@ public class MessageService {
             User user = userOptional.get();
             List<Message> foundMessages = messageRepository.findAllByUserId(user.getId());
             for (Message message : foundMessages) {
+                message.read();
                 messages.add(message.getContent());
             }
         }
