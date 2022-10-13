@@ -12,6 +12,7 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 @Slf4j
 public class ControllerExceptionHandler {
+
     @ExceptionHandler(CustomException.class)
     protected ResponseEntity<ErrorResponseDto> handleCustomException(final CustomException e){
         ErrorResponseDto responseDto = ErrorResponseDto
@@ -41,4 +42,15 @@ public class ControllerExceptionHandler {
                 .build();
         return ResponseEntity.status(responseDto.getStatus()).body(responseDto);
     }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponseDto> handleException(final Exception e){
+        ErrorResponseDto responseDto = ErrorResponseDto
+                .builder()
+                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
+                .message(ErrorCode.INTERNAL_SERVER_ERROR.getMessage())
+                .build();
+        return ResponseEntity.status(responseDto.getStatus()).body(responseDto);
+    }
+
 }
