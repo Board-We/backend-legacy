@@ -22,9 +22,18 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(e.getErrorCode().getStatus()).body(responseDto);
     }
 
-    // TODO - 메시지 예쁘게 나오게 만들기
-    @ExceptionHandler({ConstraintViolationException.class, MethodArgumentNotValidException.class})
-    protected ResponseEntity<ErrorResponseDto> handleCustomException(final Exception e){
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e){
+        ErrorResponseDto responseDto = ErrorResponseDto
+                .builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getFieldError().getField() + ": " + e.getFieldError().getDefaultMessage())
+                .build();
+        return ResponseEntity.status(responseDto.getStatus()).body(responseDto);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<ErrorResponseDto> handleConstraintViolationException(final ConstraintViolationException e){
         ErrorResponseDto responseDto = ErrorResponseDto
                 .builder()
                 .status(HttpStatus.BAD_REQUEST.value())
