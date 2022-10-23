@@ -3,9 +3,9 @@ package com.bf.bambooforest.service;
 import com.bf.bambooforest.dto.GetMessagesResponseDto;
 import com.bf.bambooforest.entity.Message;
 import com.bf.bambooforest.entity.MessageStatus;
-import com.bf.bambooforest.entity.User;
+import com.bf.bambooforest.entity.Member;
 import com.bf.bambooforest.repository.MessageRepository;
-import com.bf.bambooforest.repository.UserRepository;
+import com.bf.bambooforest.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,25 +19,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MessageService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     private final MessageRepository messageRepository;
 
     @Transactional
     public void sendMessage(String phoneNumber, String messageBody) {
 
-        Optional<User> userOptional = userRepository.findByPhoneNumber(phoneNumber);
-        User user;
-        if (userOptional.isPresent()) {
-            user = userOptional.get();
+        Optional<Member> memberOptional = memberRepository.findByPhoneNumber(phoneNumber);
+        Member member;
+        if (memberOptional.isPresent()) {
+            member = memberOptional.get();
 
         } else {
-            user = new User(phoneNumber);
-            userRepository.save(user);
+            member = new Member(phoneNumber);
+            memberRepository.save(member);
         }
 
         messageRepository.save(Message.builder()
-                .user(user)
+                .member(member)
                 .content(messageBody)
                 .build());
 
@@ -46,10 +46,10 @@ public class MessageService {
     @Transactional
     public GetMessagesResponseDto getMessageDto(String phoneNumber) {
         List<String> messages = new ArrayList<>();
-        Optional<User> userOptional = userRepository.findByPhoneNumber(phoneNumber);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            List<Message> foundMessages = messageRepository.findByUserIdAndStatus(user.getId(), MessageStatus.UNREAD);
+        Optional<Member> memberOptional = memberRepository.findByPhoneNumber(phoneNumber);
+        if (memberOptional.isPresent()) {
+            Member member = memberOptional.get();
+            List<Message> foundMessages = messageRepository.findByMemberIdAndStatus(member.getId(), MessageStatus.UNREAD);
             for (Message message : foundMessages) {
                 message.read();
                 messages.add(message.getContent());
