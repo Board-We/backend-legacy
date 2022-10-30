@@ -15,15 +15,15 @@ public class Message {
 
     @Id @GeneratedValue
     @Column(name="MESSAGE_ID")
-    private int id;
+    private Long id;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(
-            name="USER_ID",
-            foreignKey = @ForeignKey(name="FK_message_TO_user_1")
+            name="MEMBER_ID",
+            foreignKey = @ForeignKey(name="FK_message_TO_member_1")
     )
     @NotNull
-    private User user;
+    private Member member;
 
     @Column(
             columnDefinition = "NVARCHAR2(50)"
@@ -39,9 +39,14 @@ public class Message {
     private MessageStatus status;
 
     @Builder
-    public Message(User user, String content) {
-        this.user = user;
+    public Message(Member member, String content) {
+        this.member = member;
         this.content = content;
         this.status = MessageStatus.UNREAD;
     }
+
+    public void read() {
+        this.status = MessageStatus.READ;
+    }
+
 }

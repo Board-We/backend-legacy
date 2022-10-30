@@ -13,21 +13,21 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class Member {
 
     @Id @GeneratedValue
-    @Column(name="USER_ID")
+    @Column(name="MEMBER_ID")
     private Long id;
 
     @Column
     @NotNull
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member")
     private final List<Message> messages = new ArrayList<>();
 
     @Builder
-    public User(String phoneNumber) {
+    public Member(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

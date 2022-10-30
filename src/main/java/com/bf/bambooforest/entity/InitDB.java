@@ -25,17 +25,17 @@ public class InitDB {
         private final EntityManager em;
 
         public void dbInit1() {
-            User user = new User("01012345678");
-            User user2 = new User("01098765432");
-            em.persist(user);
-            em.persist(user2);
+            Member member = new Member("01012345678");
+            Member member2 = new Member("01098765432");
+            em.persist(member);
+            em.persist(member2);
 
             Message message1 = Message.builder()
-                    .user(user)
+                    .member(member)
                     .content("Hello")
                     .build();
             Message message2 = Message.builder()
-                    .user(user2)
+                    .member(member2)
                     .content("쎄상")
                     .build();
 
